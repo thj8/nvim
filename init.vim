@@ -54,16 +54,17 @@ inoremap <C-a> <ESC>A
 
 "=============coc==============
 let g:coc_global_extensions = [
-	\ 'coc-diagnostic',
-	\ 'coc-explorer',
-	\ 'coc-json',
-	\ 'coc-lists',
-	\ 'coc-marketplace',
-	\ 'coc-pyright',
-	\ 'coc-syntax',
+  \ 'coc-diagnostic',
+  \ 'coc-explorer',
+  \ 'coc-json',
+  \ 'coc-lists',
+  \ 'coc-marketplace',
+  \ 'coc-pyright',
+  \ 'coc-syntax',
   \ 'coc-highlight',
   \ 'coc-yank',
-	\ 'coc-go' ]
+  \ 'coc-go',
+]
 
 set hidden
 set updatetime=100
