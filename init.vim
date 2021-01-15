@@ -63,8 +63,7 @@ let g:coc_global_extensions = [
   \ 'coc-syntax',
   \ 'coc-highlight',
   \ 'coc-yank',
-  \ 'coc-go',
-]
+  \ 'coc-go', ]
 
 set hidden
 set updatetime=100
