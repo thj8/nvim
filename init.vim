@@ -65,6 +65,9 @@ let g:coc_global_extensions = [
   \ 'coc-yank',
   \ 'coc-go', ]
 
+
+
+
 set hidden
 set updatetime=100
 set shortmess+=c
@@ -85,7 +88,7 @@ endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
+  inoremap <silent><expr> <c-@> coc#refresh()
 else
   inoremap <silent><expr> <c-@> coc#refresh()
 endif
