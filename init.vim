@@ -25,12 +25,23 @@ colorscheme desert
 call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" ranger
 Plug 'kevinhwang91/rnvimr'
+
+" go支持
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+
+" 快速注释
 Plug 'tomtom/tcomment_vim'
+
+" fzf模糊查找
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim', { 'do': { -> fzf#install() } }
 Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
+
+" markdown
+Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown'}
 
 call plug#end()
 
@@ -219,3 +230,15 @@ command! BD call fzf#run(fzf#wrap({
 noremap <c-c> :BD<CR>
 
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
+
+" ===
+" === vim-instant-markdown
+" ===
+let g:instant_markdown_slow = 0
+let g:instant_markdown_autostart = 0
+" let g:instant_markdown_open_to_the_world = 1
+" let g:instant_markdown_allow_unsafe_content = 1
+" let g:instant_markdown_allow_external_content = 0
+" let g:instant_markdown_mathjax = 1
+let g:instant_markdown_autoscroll = 1
+
