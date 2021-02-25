@@ -198,12 +198,9 @@ vmap <LEADER>cu g<
 " ===
 set rtp+=/usr/local/bin/fzf
 set rtp+=/Users/sugar/.fzf/bin/fzf
-nnoremap <c-p> :Leaderf file<CR>
-" noremap <silent> <C-p> :Files<CR>
+noremap <silent> <C-p> :Files<CR>
 noremap <silent> <C-f> :Rg<CR>
 noremap <silent> <C-h> :History<CR>
-"noremap <C-t> :BTags<CR>
-" noremap <silent> <C-l> :Lines<CR>
 noremap <silent> <C-b> :Buffers<CR>
 noremap <leader>; :History:<CR>
 
