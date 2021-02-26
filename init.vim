@@ -21,6 +21,7 @@ set shiftwidth=2
 set softtabstop=-1
 set expandtab
 colorscheme desert
+set clipboard^=unnamed,unnamedplus
 
 call plug#begin('~/.vim/plugged')
 
