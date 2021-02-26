@@ -218,13 +218,6 @@ function! s:delete_buffers(lines)
   execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
 endfunction
 
-command! BD call fzf#run(fzf#wrap({
-  \ 'source': s:list_buffers(),
-  \ 'sink*': { lines -> s:delete_buffers(lines) },
-  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
-\ }))
-
-noremap <c-c> :BD<CR>
 
 let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
 
@@ -239,3 +232,5 @@ let g:instant_markdown_autostart = 0
 " let g:instant_markdown_mathjax = 1
 let g:instant_markdown_autoscroll = 1
 
+nnoremap <leader>mm :InstantMarkdownPreview<cr>
+nnoremap <leader>mc :InstantMarkdownStop<cr>
