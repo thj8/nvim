@@ -27,13 +27,22 @@ set scrolloff=4
 call plug#begin('~/.vim/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
 let g:coc_global_extensions = [
   \ 'coc-explorer',
   \ 'coc-json',
+	\ 'coc-go',
+	\ 'coc-translator',
   \ 'coc-pyright', ]
+
+" edit & source vimrc
+nnoremap <leader>s :source $MYVIMRC<cr>
+nnoremap <leader>ev :edit $MYVIMRC<cr>
 
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
 " utf-8 byte sequence
@@ -126,3 +135,24 @@ nnoremap <silent> bn :bnext<CR>
 nnoremap <silent> bp :bprevious<CR>
 nnoremap <silent> bd :bdelete<CR>
 
+
+" coc-translator
+nmap <Leader>t <Plug>(coc-translator-p)
+vmap <Leader>t <Plug>(coc-translator-pv)
+" echo
+nmap <Leader>e <Plug>(coc-translator-e)
+vmap <Leader>e <Plug>(coc-translator-ev)
+
+
+" ==================== FZF ====================
+let g:fzf_preview_window = 'right:40%'
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+let g:fzf_layout = { 'window': { 'width': 0.85, 'height': 0.85 } }
+noremap <C-p> :FZF<CR>
+noremap <C-l> :Buffers<CR>
+
+" Jump to last edit position on opening file
+if has("autocmd")
+  " https://stackoverflow.com/questions/31449496/vim-ignore-specifc-file-in-autocommand
+  au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
