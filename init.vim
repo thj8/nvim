@@ -17,8 +17,8 @@ set virtualedit=block,onemore   " 允许光标出现在最后一个字符的后�
 set relativenumber       " 设置相对行号
 set tabstop=2            " 设置制表符为2个空格
 set shiftwidth=2
+set expandtab
 set softtabstop=-1
-set noexpandtab
 "set noshowmode					 " 不显示mode，insert normal等
 set showtabline=2				 " 默认显示最上面标签
 set scrolloff=4
@@ -30,6 +30,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'kdheepak/lazygit.nvim'
 
 call plug#end()
 
@@ -37,6 +38,7 @@ let g:coc_global_extensions = [
   \ 'coc-explorer',
   \ 'coc-json',
 	\ 'coc-go',
+	\ 'coc-marketplace',
 	\ 'coc-translator',
   \ 'coc-pyright', ]
 
@@ -150,9 +152,19 @@ let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %
 let g:fzf_layout = { 'window': { 'width': 0.85, 'height': 0.85 } }
 noremap <C-p> :FZF<CR>
 noremap <C-l> :Buffers<CR>
+noremap <C-f> :Ag<CR>
 
 " Jump to last edit position on opening file
 if has("autocmd")
   " https://stackoverflow.com/questions/31449496/vim-ignore-specifc-file-in-autocommand
   au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
+
+
+" ==================== lazygit.nvim ====================
+noremap <c-g> :LazyGit<CR>
+let g:lazygit_floating_window_winblend = 0 " transparency of floating window
+let g:lazygit_floating_window_scaling_factor = 0.85 " scaling factor for floating window
+let g:lazygit_floating_window_border_chars = ['╭', '╮', '╰', '╯'] " customize lazygit popup window corner characters
+let g:lazygit_floating_window_highlight = 'NormalFloat'
+highlight NormalFloat guibg=black
