@@ -31,6 +31,8 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'kdheepak/lazygit.nvim'
+Plug 'pseewald/vim-anyfold'       " 折叠代码
+Plug 'tomtom/tcomment_vim' " comment
 
 call plug#end()
 
@@ -168,3 +170,18 @@ let g:lazygit_floating_window_scaling_factor = 0.85 " scaling factor for floatin
 let g:lazygit_floating_window_border_chars = ['╭', '╮', '╰', '╯'] " customize lazygit popup window corner characters
 let g:lazygit_floating_window_highlight = 'NormalFloat'
 highlight NormalFloat guibg=black
+
+" ================== vim-anyfold ================
+autocmd Filetype * AnyFoldActivate
+let g:anyfold_fold_comments=1
+set foldlevel=99
+" Use Vim's fold commands zo, zO, zc, za, ... to fold / unfold folds (read :h fold-commands for more information).
+
+
+" ==================== tcomment_vim ====================
+nnoremap ci cl
+let g:tcomment_textobject_inlinecomment = ''
+nmap <LEADER>cn g>c
+vmap <LEADER>cn g>
+nmap <LEADER>cu g<c
+vmap <LEADER>cu g<
