@@ -1,81 +1,65 @@
-let mapleader = ","      " 定义<leader>键
-set nocompatible         " 设置不兼容原始vi模式
-filetype on              " 设置开启文件类型侦测
-filetype plugin on       " 设置加载对应文件类型的插件
-set noeb                 " 关闭错误的提示
-syntax enable            " 开启语法高亮功能
-set t_Co=256             " 开启256色支持
-set cmdheight=1          " 设置命令行的高度
-set showcmd
-set ruler                " 总是显示光标位置
-set laststatus=2         " 总是显示状态栏
-set number               " 开启行号显示
-set cursorline           " 高亮显示当前行
-set whichwrap+=<,>,h,l   " 设置光标键跨行
-set ttimeoutlen=0        " 设置<ESC>键响应时间
-set virtualedit=block,onemore   " 允许光标出现在最后一个字符的后面
-set relativenumber       " 设置相对行号
-set tabstop=2            " 设置制表符为2个空格
+let mapleader = ","
+
+set nocompatible
+set background=dark
+syntax on
+filetype off
+set autochdir
+set cursorline
+set linespace=0
+set number
+set showmatch
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set autoindent
 set shiftwidth=2
 set expandtab
-set softtabstop=-1
-"set noshowmode					 " 不显示mode，insert normal等
-set showtabline=2				 " 默认显示最上面标签
-set scrolloff=4
+set tabstop=2
+set softtabstop=2
+set cindent
+set smartindent
+set relativenumber
 
 
-call plug#begin('~/.vim/plugged')
-
+call plug#begin()
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'tomtom/tcomment_vim'        " comment
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'kdheepak/lazygit.nvim'
-Plug 'pseewald/vim-anyfold'       " 折叠代码
-Plug 'tomtom/tcomment_vim' " comment
-
 call plug#end()
 
 let g:coc_global_extensions = [
   \ 'coc-explorer',
   \ 'coc-json',
-	\ 'coc-go',
-	\ 'coc-marketplace',
-	\ 'coc-translator',
+  \ 'coc-go',
+  \ 'coc-git',
+  \ 'coc-rust-analyzer',
+  \ 'coc-marketplace',
+  \ 'coc-translator',
   \ 'coc-pyright', ]
 
 " edit & source vimrc
 nnoremap <leader>s :source $MYVIMRC<cr>
 nnoremap <leader>ev :edit $MYVIMRC<cr>
+nnoremap <leader>l :edit<cr>
 
-" May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
-" utf-8 byte sequence
 set encoding=utf-8
-" Some servers have issues with backup files, see #649
 set nobackup
 set nowritebackup
-
-" Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
-" delays and poor user experience
 set updatetime=300
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved
 set signcolumn=yes
-
-" Use tab for trigger completion with characters ahead and navigate
-" NOTE: There's always complete item selected by default, you may want to enable
-" no select by `"suggest.noselect": true` in your configuration file
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
       \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-" Make <CR> to accept selected completion item or notify coc.nvim to format
-" <C-g>u breaks current undo, please make your own choice
 inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
@@ -99,7 +83,8 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
-nnoremap <silent> K :call ShowDocumentation()<CR>
+" nnoremap <silent> K :call ShowDocumentation()<CR>
+nnoremap <C-k> :call CocAction('doHover')<CR>
 
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
@@ -116,8 +101,11 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+" xmap <leader>f  <Plug>(coc-format-selected)
+" nmap <leader>f  <Plug>(coc-format-selected)
+nnoremap <silent> <leader>f :call CocAction('format')<CR>
+xnoremap <silent> <leader>f :<C-u>call CocAction('formatSelected')<CR>
+autocmd BufWritePre *.go,*.rs,*.py call CocAction('format')
 
 
 
@@ -139,45 +127,6 @@ nnoremap <silent> bn :bnext<CR>
 nnoremap <silent> bp :bprevious<CR>
 nnoremap <silent> bd :bdelete<CR>
 
-
-" coc-translator
-nmap <Leader>t <Plug>(coc-translator-p)
-vmap <Leader>t <Plug>(coc-translator-pv)
-" echo
-nmap <Leader>e <Plug>(coc-translator-e)
-vmap <Leader>e <Plug>(coc-translator-ev)
-
-
-" ==================== FZF ====================
-let g:fzf_preview_window = 'right:40%'
-let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
-let g:fzf_layout = { 'window': { 'width': 0.85, 'height': 0.85 } }
-noremap <C-p> :FZF<CR>
-noremap <C-l> :Buffers<CR>
-noremap <C-f> :Ag<CR>
-
-" Jump to last edit position on opening file
-if has("autocmd")
-  " https://stackoverflow.com/questions/31449496/vim-ignore-specifc-file-in-autocommand
-  au BufReadPost * if expand('%:p') !~# '\m/\.git/' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-endif
-
-
-" ==================== lazygit.nvim ====================
-noremap <c-g> :LazyGit<CR>
-let g:lazygit_floating_window_winblend = 0 " transparency of floating window
-let g:lazygit_floating_window_scaling_factor = 0.85 " scaling factor for floating window
-let g:lazygit_floating_window_border_chars = ['╭', '╮', '╰', '╯'] " customize lazygit popup window corner characters
-let g:lazygit_floating_window_highlight = 'NormalFloat'
-highlight NormalFloat guibg=black
-
-" ================== vim-anyfold ================
-autocmd Filetype * AnyFoldActivate
-let g:anyfold_fold_comments=1
-set foldlevel=99
-" Use Vim's fold commands zo, zO, zc, za, ... to fold / unfold folds (read :h fold-commands for more information).
-
-
 " ==================== tcomment_vim ====================
 nnoremap ci cl
 let g:tcomment_textobject_inlinecomment = ''
@@ -185,3 +134,49 @@ nmap <LEADER>cn g>c
 vmap <LEADER>cn g>
 nmap <LEADER>cu g<c
 vmap <LEADER>cu g<
+
+"================= coc-translator ================
+nmap <leader>t <Plug>(coc-translator-p)
+vmap <leader>t <Plug>(coc-translator-pv)
+nmap <leader>e <Plug>(coc-translator-e)
+vmap <leader>e <Plug>(coc-translator-ev)
+
+"================= yank ====================
+vnoremap Y "+y
+
+"================= python ====================
+nmap <leader>ai <Plug>(coc-codeaction-cursor)
+nmap <leader>al <Plug>(coc-codeaction-line)
+nmap <leader>oi :CocCommand pyright.organizeimports<CR>
+
+
+"================ fzf =====================
+let g:fzf_preview_window = 'right:40%'
+let g:fzf_commits_log_options = '--graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"'
+let g:fzf_layout = { 'window': { 'width': 0.85, 'height': 0.85 } }
+noremap <C-p> :FZF<CR>
+noremap <C-l> :Buffers<CR>
+noremap <C-f> :Ag<CR>
+
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, {'options': ['--layout=reverse', '--info=inline', '--preview', 'bat {}']}, <bang>0)
+
+"=============== colortheme================
+colorscheme catppuccin
+highlight Comment gui=NONE cterm=NONE
+
+
+"================ terminal =================
+nnoremap <leader>te :terminal<CR>i
+nnoremap <leader>th :split<CR>:terminal<CR>i
+nnoremap <leader>tv :vsplit<CR>:terminal<CR>i
+tnoremap <Esc> <C-\><C-n>
+
+"==================== lazygit.nvim ====================
+noremap <c-g> :LazyGit<CR>
+let g:lazygit_floating_window_winblend = 0 " transparency of floating window
+let g:lazygit_floating_window_scaling_factor = 1.0 " scaling factor for floating window
+
+"================= markdown =========================
+" let g:mkdp_browser = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+autocmd FileType markdown nnoremap <buffer> <leader>m :MarkdownPreview<CR>

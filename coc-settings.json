@@ -1,14 +1,21 @@
 {
-        "coc.preferences.formatOnSave": true,
-        "snippets.ultisnips.pythonPrompt": false,
-        "pyright.inlayHints.variableTypes": false,
-        "pyright.inlayHints.functionReturnTypes": false,
-        "pyright.disableDiagnostics": true,
-        "python.formatting.provider": "yapf",
-        "python.formatting.yapfPath": "/usr/local/bin/yapf",
-        "python.formatting.yapfArgs": [
-                "--style",
-                "{SPACES_AROUND_POWER_OPERATOR: True, SPACES_BEFORE_COMMENT: 1, COLUMN_LIMIT: 120}"
-        ]
+  "inlayHint.enable": false,
+  "python.analysis.autoImportCompletions": true,
+  "python.formatting.provider": "yapf",
+  "python.formatting.yapfPath": "/home/sugar/soft/tinyfat/bin/yapf",
+  "python.formatting.yapfArgs": [
+    "--style",
+    "{SPACES_AROUND_POWER_OPERATOR: True, SPACES_BEFORE_COMMENT: 1, COLUMN_LIMIT: 120}"
+  ],
+  "python.pythonPath": "/home/sugar/soft/tinyfat/bin/python3",
+  "pyright.disableDiagnostics": true,
+  "go.goplsOptions": {
+    "gofumpt": true,
+    "completeUnimported": true,
+    "staticcheck": true,
+    "usePlaceholders": true
+  },
+  "git.enableGutters": false,
+    "coc.preferences.extensionUpdateCheck": "always",
+  "markdown-preview-enhanced.fileExtension": [".md", ".markdown"],
 }
-
